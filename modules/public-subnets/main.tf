@@ -7,7 +7,10 @@ module "subnets" {
   availability_zones = var.availability_zones
   propagating_vgws   = var.propagating_vgws
   tags               = var.tags
-  tags_for_resource  = var.tags_for_resource
+  tags_for_resource  = merge(
+    var.tags_for_resource,
+    { "aws_subnet" = lookup(var.tags_for_resource, "public_subnet", {}) }
+  )
 
   map_public_ip_on_launch = var.map_public_ip_on_launch
 }
